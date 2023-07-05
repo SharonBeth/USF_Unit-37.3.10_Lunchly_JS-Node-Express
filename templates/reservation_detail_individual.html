@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}{{ customer.fullName }}{% endblock %}
+
+{% block content %}
+
+
+<h1>{{ customer.fullName }}</h1>
+
+<div class="row">
+
+  <div class="col-6">
+
+    <p><b>Phone: </b> {{ customer.phone }}</p>
+    <p><b>Notes: </b>{{ customer.notes }}</p>
+
+    <p><a class="btn btn-primary" href="/{{ customer.id }}/edit/">Edit</a></p>
+
+    <h2>Reservations-Updates</h2>
+    {% if reservations %}
+    <ul>
+      {% for reservation in reservations %}
+      <li><a href="/update-reservation/{{reservation.id}}/">{{ reservation.getformattedStartAt() }}</a> for {{
+        reservation.numGuests }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>None!</p>
+    {% endif %}
+
+  </div>
+
+  <div class="col-6">
+    <h3>Update Reservation</h3>
+    <form action="/update-reservation/{{reservations.id}}/{{customer.id}}/" method="POST">
+      <div class="form-group">
+        <label for="start">Start</label>
+        <input id="start" class="form-control" name="startAt" value="{{reservations.startAt}}">
+      </div>
+      <div class="form-group">
+        <label for="num-guests"># of Guests:</label>
+        <input class="form-control" value="{{reservations.numGuests}}" name="numGuests" type="number" id="num-guests">
+      </div>
+
+
+      <div class="form-group">
+        <label for="notes">Notes:</label>
+        <textarea class="form-control" value="{{reservations.id}}" name="notes"
+          id="notes">{{reservations.notes}}</textarea>
+      </div>
+
+
+      <button class="btn btn-primary">Update</button>
+    </form>
+  </div>
+
+</div>
+
+{% endblock %}
